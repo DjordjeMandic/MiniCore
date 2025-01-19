@@ -116,6 +116,10 @@ public:
   bool overflow() { bool ret = _buffer_overflow; if (ret) _buffer_overflow = false; return ret; }
   int peek();
 
+  constexpr size_t bufferSize() const { return sizeof(_receive_buffer) / sizeof(_receive_buffer[0]); }
+  int readBuffer(const size_t index) const { return (index < bufferSize()) ? _receive_buffer[index] : -1; }
+  int readBufferFromHead(const size_t index) const { return readBuffer(_receive_buffer_head + index); }
+  
   virtual size_t write(uint8_t byte);
   virtual int read();
   virtual int available();
